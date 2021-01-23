@@ -30,35 +30,40 @@
 {
   const char *typeEncoding = [NSObject PD_typeEncodingForKeyPath:keyPath onObject:self];
   
-  // Note: this is by no means complete...
-  // Allow BOOLs to be set with YES/NO
-  if (typeEncoding && !strcmp(typeEncoding, @encode(BOOL)) && ([valueString isEqualToString:@"YES"] || [valueString isEqualToString:@"NO"])) {
-    BOOL boolValue = [valueString isEqualToString:@"YES"];
-    [self setValue:[NSNumber numberWithBool:boolValue] forKeyPath:keyPath];
-  } else if (typeEncoding && !strcmp(typeEncoding, @encode(CGPoint))) {
-    CGPoint point = CGPointFromString(valueString);
-    [self setValue:[NSValue valueWithCGPoint:point] forKeyPath:keyPath];
-  } else if (typeEncoding && !strcmp(typeEncoding, @encode(CGSize))) {
-    CGSize size = CGSizeFromString(valueString);
-    [self setValue:[NSValue valueWithCGSize:size] forKeyPath:keyPath];
-  } else if (typeEncoding && !strcmp(typeEncoding, @encode(CGRect))) {
-    CGRect rect = CGRectFromString(valueString);
-    [self setValue:[NSValue valueWithCGRect:rect] forKeyPath:keyPath];
-  } else if (typeEncoding && !strcmp(typeEncoding, @encode(UIEdgeInsets))) {
-    UIEdgeInsets insets = UIEdgeInsetsFromString(valueString);
-    [self setValue:[NSValue valueWithUIEdgeInsets:insets] forKeyPath:keyPath];
-  } else if (typeEncoding && !strcmp(typeEncoding, @encode(id))) {
-    id currentValue = [self valueForKeyPath:keyPath];
-    if ([currentValue isKindOfClass:[NSString class]]) {
-      [self setValue:valueString forKeyPath:keyPath];
-    } else if ([currentValue isKindOfClass:[NSAttributedString class]]) {
-      [self setValue:[[NSAttributedString alloc] initWithString:valueString] forKeyPath:keyPath];
-    } else if ([currentValue isKindOfClass:[NSURL class]]) {
-      [self setValue:[NSURL URLWithString:valueString] forKeyPath:keyPath];
+  @try {
+    // Note: this is by no means complete...
+    // Allow BOOLs to be set with YES/NO
+    if (typeEncoding && !strcmp(typeEncoding, @encode(BOOL)) && ([valueString isEqualToString:@"YES"] || [valueString isEqualToString:@"NO"])) {
+      BOOL boolValue = [valueString isEqualToString:@"YES"];
+      [self setValue:[NSNumber numberWithBool:boolValue] forKeyPath:keyPath];
+    } else if (typeEncoding && !strcmp(typeEncoding, @encode(CGPoint))) {
+      CGPoint point = CGPointFromString(valueString);
+      [self setValue:[NSValue valueWithCGPoint:point] forKeyPath:keyPath];
+    } else if (typeEncoding && !strcmp(typeEncoding, @encode(CGSize))) {
+      CGSize size = CGSizeFromString(valueString);
+      [self setValue:[NSValue valueWithCGSize:size] forKeyPath:keyPath];
+    } else if (typeEncoding && !strcmp(typeEncoding, @encode(CGRect))) {
+      CGRect rect = CGRectFromString(valueString);
+      [self setValue:[NSValue valueWithCGRect:rect] forKeyPath:keyPath];
+    } else if (typeEncoding && !strcmp(typeEncoding, @encode(UIEdgeInsets))) {
+      UIEdgeInsets insets = UIEdgeInsetsFromString(valueString);
+      [self setValue:[NSValue valueWithUIEdgeInsets:insets] forKeyPath:keyPath];
+    } else if (typeEncoding && !strcmp(typeEncoding, @encode(id))) {
+      id currentValue = [self valueForKeyPath:keyPath];
+      if ([currentValue isKindOfClass:[NSString class]]) {
+        [self setValue:valueString forKeyPath:keyPath];
+      } else if ([currentValue isKindOfClass:[NSAttributedString class]]) {
+        [self setValue:[[NSAttributedString alloc] initWithString:valueString] forKeyPath:keyPath];
+      } else if ([currentValue isKindOfClass:[NSURL class]]) {
+        [self setValue:[NSURL URLWithString:valueString] forKeyPath:keyPath];
+      }
+    } else {
+      NSNumber *number = @([valueString doubleValue]);
+      [self setValue:number forKeyPath:keyPath];
     }
-  } else {
-    NSNumber *number = @([valueString doubleValue]);
-    [self setValue:number forKeyPath:keyPath];
+  } 
+  @catch (NSUnknownKeyException *e) {
+    NSLog(@"Failed setting key %@", keyPath);
   }
 }
 
