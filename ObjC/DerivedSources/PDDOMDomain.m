@@ -330,6 +330,10 @@
         [self.delegate domain:self highlightNodeWithNodeId:[params objectForKey:@"nodeId"] highlightConfig:[params objectForKey:@"highlightConfig"] callback:^(id error) {
             responseCallback(nil, error);
         }];
+    } else if ([methodName isEqualToString:@"setInspectedNode"] && [self.delegate respondsToSelector:@selector(domain:highlightNodeWithNodeId:highlightConfig:callback:)]) {
+        [self.delegate domain:self highlightNodeWithNodeId:[params objectForKey:@"nodeId"] highlightConfig:[params objectForKey:@"highlightConfig"] callback:^(id error) {
+            responseCallback(nil, error);
+        }];
     } else if ([methodName isEqualToString:@"hideHighlight"] && [self.delegate respondsToSelector:@selector(domain:hideHighlightWithCallback:)]) {
         [self.delegate domain:self hideHighlightWithCallback:^(id error) {
             responseCallback(nil, error);
