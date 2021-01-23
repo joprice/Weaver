@@ -62,8 +62,8 @@
       [self setValue:number forKeyPath:keyPath];
     }
   } 
-  @catch (NSUnknownKeyException *e) {
-    NSLog(@"Failed setting key %@", keyPath);
+  @catch (Exception *e) {
+    NSLog(@"Failed setting key %@ %@", keyPath, e.reason);
   }
 }
 
