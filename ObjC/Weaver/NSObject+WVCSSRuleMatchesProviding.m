@@ -342,6 +342,7 @@ ASDISPLAYNODE_INLINE AS_WARN_UNUSED_RESULT NSString *NSHexStringFromColor(UIColo
   return result;
 }
 
+@end
 
 @implementation ASTextNode (PDCSSRuleMatchesProviding)
 
