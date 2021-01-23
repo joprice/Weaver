@@ -322,6 +322,27 @@ ASDISPLAYNODE_INLINE AS_WARN_UNUSED_RESULT NSString *NSHexStringFromColor(UIColo
 
 @end
 
+@implementation ASTextNode2 (PDCSSRuleMatchesProviding)
+
+- (NSArray<PDCSSProperty *> *)wv_CSSProperties
+{
+  NSMutableArray<PDCSSProperty *> *result = [NSMutableArray arrayWithArray:[super wv_CSSProperties]];
+  [result addObject:[PDCSSProperty propertyWithName:@"attributedText" value:self.attributedText.string]];
+  [result addObject:[PDCSSProperty propertyWithName:@"truncationAttributedText" value:self.truncationAttributedText.string]];
+  [result addObject:[PDCSSProperty propertyWithName:@"additionalTruncationMessage" value:self.additionalTruncationMessage.string]];
+  [result addObject:[PDCSSProperty propertyWithName:@"truncationMode" value:@(self.truncationMode).stringValue]]; // Enum
+  [result addObject:[PDCSSProperty propertyWithName:@"truncated" value:(self.truncated ? @"YES" : @"NO")]];
+  [result addObject:[PDCSSProperty propertyWithName:@"maximumNumberOfLines" value:@(self.maximumNumberOfLines).stringValue]];
+  [result addObject:[PDCSSProperty propertyWithName:@"lineCount" value:@(self.lineCount).stringValue]];
+  [result addObject:[PDCSSProperty propertyWithName:@"placeholderEnabled" value:@(self.placeholderEnabled).stringValue]]; // BOOL
+  [result addObject:[PDCSSProperty propertyWithName:@"placeholderColor" value:NSHexStringFromColor(self.placeholderColor)]];
+  [result addObject:[PDCSSProperty propertyWithName:@"placeholderInsets" value:NSStringFromUIEdgeInsets(self.placeholderInsets)]];
+  [result addObject:[PDCSSProperty propertyWithName:@"shadowPadding" value:NSStringFromUIEdgeInsets(self.shadowPadding)]];
+  
+  return result;
+}
+
+
 @implementation ASTextNode (PDCSSRuleMatchesProviding)
 
 - (NSArray<PDCSSProperty *> *)wv_CSSProperties
