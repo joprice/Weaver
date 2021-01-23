@@ -328,8 +328,9 @@ ASDISPLAYNODE_INLINE AS_WARN_UNUSED_RESULT NSString *NSHexStringFromColor(UIColo
 {
   NSMutableArray<PDCSSProperty *> *result = [NSMutableArray arrayWithArray:[super wv_CSSProperties]];
   [result addObject:[PDCSSProperty propertyWithName:@"attributedText" value:self.attributedText.string]];
-  [result addObject:[PDCSSProperty propertyWithName:@"truncationAttributedText" value:self.truncationAttributedText.string]];
-  [result addObject:[PDCSSProperty propertyWithName:@"additionalTruncationMessage" value:self.additionalTruncationMessage.string]];
+  //TODO: these are missing "value" field in json
+  //[result addObject:[PDCSSProperty propertyWithName:@"truncationAttributedText" value:self.truncationAttributedText.string]];
+  //[result addObject:[PDCSSProperty propertyWithName:@"additionalTruncationMessage" value:self.additionalTruncationMessage.string]];
   [result addObject:[PDCSSProperty propertyWithName:@"truncationMode" value:@(self.truncationMode).stringValue]]; // Enum
   [result addObject:[PDCSSProperty propertyWithName:@"truncated" value:(self.truncated ? @"YES" : @"NO")]];
   [result addObject:[PDCSSProperty propertyWithName:@"maximumNumberOfLines" value:@(self.maximumNumberOfLines).stringValue]];
